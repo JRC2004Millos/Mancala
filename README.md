@@ -34,21 +34,6 @@ Para ejecutar el juego, asegúrate de tener Python 3 instalado y luego corre:
 python mancala.py
 ```
 
-## 🗂️ Estructura del Proyecto
-
-```bash
-mancala/
-├── mancala.py              # Archivo principal
-├── juego.py                # Clase Juego
-├── tablero.py              # Clase Tablero y Ficha
-├── jugador_humano.py       # Clase JugadorHumano
-├── jugador_sintetico.py    # Clase JugadorSintético
-├── consola.py              # Lógica de la interfaz en consola
-├── README.md               # Este archivo
-└── docs/
-    └── diagrama_flujo_jugador_sintetico.png
-```
-
 ## ✅ Funcionalidades
 - Representación visual del tablero en consola.
 
@@ -57,17 +42,6 @@ mancala/
 - Jugador automático con lógica estratégica.
 
 - Detección de fin del juego y cálculo del ganador.
-
-## 🧪 Pruebas
-El sistema ha sido probado con casos como:
-
-- Jugadas válidas e inválidas.
-
-- Capturas.
-
-- Turnos extras.
-
-- Fin de juego y conteo correcto de semillas.
 
 ## 📚 Créditos
 Desarrollado por:
