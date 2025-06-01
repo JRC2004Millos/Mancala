@@ -3,7 +3,7 @@ from ficha import Ficha
 
 class Tablero:
     def __init__(self):
-        # 12 hoyos: índices 0–11; graneros: [jugador1, jugador2]
+        
         self.agujeros = [[Ficha(1) for _ in range(4)] for _ in range(12)]
         self.graneros = [0, 0]
 
@@ -49,14 +49,10 @@ class Tablero:
         return agujeros_con_cantidades, self.graneros
 
     def __deepcopy__(self, memo):
-        """
-        Permite que copy.deepcopy(tablero) funcione correctamente en Minimax.
-        Clona cada Ficha usando su 'cantidad'.
-        """
+       
         nueva = Tablero()
         nueva.agujeros = []
         for hoyo in self.agujeros:
-            # Cada 'hoyo' es una lista de objetos Ficha; copiamos usando getCantidad()
             nueva_hoyo = [Ficha(fich.getCantidad()) for fich in hoyo]
             nueva.agujeros.append(nueva_hoyo)
 

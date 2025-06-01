@@ -1,6 +1,6 @@
 class Interfaz:
     def __init__(self):
-        pass  # Elimina self.agujeros, self.graneros y self.turno
+        pass  
 
     def mostrarBienvenida(self):
         print("\n" + "=" * 56)
