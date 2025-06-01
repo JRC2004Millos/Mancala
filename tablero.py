@@ -1,32 +1,64 @@
+import copy
 from ficha import Ficha
 
 class Tablero:
     def __init__(self):
-        self.agujeros = [[Ficha(1) for _ in range(4)] for _ in range(12)]  # 12 hoyos con 4 fichas cada uno
-        self.graneros = [0, 0]  # [jugador 1, jugador 2]
+        # 12 hoyos: índices 0–11; graneros: [jugador1, jugador2]
+        self.agujeros = [[Ficha(1) for _ in range(4)] for _ in range(12)]
+        self.graneros = [0, 0]
 
     def inicializar(self):
         self.agujeros = [[Ficha(1) for _ in range(4)] for _ in range(12)]
         self.graneros = [0, 0]
 
-    def actualizar(self, posicion: int, jugador: int):
+    def actualizar(self, posicion: int, jugador: int) -> int:
         semillas = len(self.agujeros[posicion])
         self.agujeros[posicion] = []
-        pos = posicion
+
+        if posicion < 6:
+            pos = posicion
+        else:
+            pos = posicion + 1
 
         while semillas > 0:
-            pos = (pos + 1) % 13  # incluir granero como posición virtual
+            pos = (pos + 1) % 14
 
-            # Si cae en el granero del jugador actual
-            if (jugador == 1 and pos == 6) or (jugador == 2 and pos == 12):
-                self.graneros[jugador - 1] += 1
+            if jugador == 1 and pos == 6:
+                self.graneros[0] += 1
                 semillas -= 1
-            elif pos != 6 and pos != 12:  # evita poner en granero del oponente
-                index = pos if pos < 6 else pos - 1  # ajustar índice para 0-11
-                self.agujeros[index % 12].append(Ficha(1))
+            elif jugador == 2 and pos == 13:
+                self.graneros[1] += 1
+                semillas -= 1
+            elif pos == 6 or pos == 13:
+                continue
+            else:
+                if pos < 6:
+                    idx = pos
+                elif 7 <= pos <= 12:
+                    idx = pos - 1
+                else:
+                    continue
+
+                self.agujeros[idx].append(Ficha(1))
                 semillas -= 1
 
+        return pos
 
     def mostrar(self):
         agujeros_con_cantidades = [len(hoyo) for hoyo in self.agujeros]
         return agujeros_con_cantidades, self.graneros
+
+    def __deepcopy__(self, memo):
+        """
+        Permite que copy.deepcopy(tablero) funcione correctamente en Minimax.
+        Clona cada Ficha usando su 'cantidad'.
+        """
+        nueva = Tablero()
+        nueva.agujeros = []
+        for hoyo in self.agujeros:
+            # Cada 'hoyo' es una lista de objetos Ficha; copiamos usando getCantidad()
+            nueva_hoyo = [Ficha(fich.getCantidad()) for fich in hoyo]
+            nueva.agujeros.append(nueva_hoyo)
+
+        nueva.graneros = self.graneros.copy()
+        return nueva
